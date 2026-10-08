@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Voxel Architect v4.1 - Sync Update</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap">
     <style>
         body { margin: 0; background: #000; overflow: hidden; font-family: 'Courier New', monospace; }
         #input_video { position: absolute; width: 100vw; height: 100vh; object-fit: cover; transform: scaleX(-1); z-index: 1; }
@@ -93,6 +96,7 @@
     </div>
 
     <script src="config.js"></script>
+    <script src="binus-logo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
@@ -463,14 +467,18 @@
             e.drawImage(bioCanvas, 0, 0, W, H);
             e.restore();
 
-            // Caption
+            // 4. Watermark logo "BINUS @Medan Mantap Kaleee" di pojok kanan bawah (sama seperti video Accessory Filter)
+            let m = Math.min(W, H) * 0.03, lh = 0;
+            if (window.BinusLogo) ({ m, lh } = window.BinusLogo.drawWatermark(e, W, H, 0.4, 0.03));
+
+            // Caption tepat di atas logo
             const d = new Date();
-            const caption = `BIO_SYNC // VOXELS ${placedVoxels.size} // ${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+            const caption = ``;
             e.font = `bold ${Math.round(H * 0.022)}px "Courier New", monospace`;
             e.textAlign = 'right'; e.textBaseline = 'bottom';
             e.shadowBlur = 10; e.shadowColor = '#00f0ff';
             e.fillStyle = '#00f0ff';
-            e.fillText(caption, W - H * 0.03, H - H * 0.03);
+            e.fillText(caption, W - m, H - m - lh);
             e.shadowBlur = 0;
             return d;
         }
